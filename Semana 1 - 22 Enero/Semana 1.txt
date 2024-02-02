@@ -1,0 +1,1 @@
+22 Enero - En esta clase, se vieron algunos concepto de mineria de datos, instalacion de sqldeveloper, se iniciaron la ejecucion de scripts jardineria y northwind

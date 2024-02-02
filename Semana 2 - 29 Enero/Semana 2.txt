@@ -1,0 +1,19 @@
+29 Enero - En esta clase se vio cada una de la caracteriticas: LAG - LEAD- NTILE - PARTITION BY - LISTAGG - PIVOT - UNPIVOT - ROLLUP - CUBE - COALESCE - NVL - DECODE - CASE
+
+Ejemplo de consultas
+
+-----LISTAGG------
+
+select j.nombre, 
+listagg(e.nombre,',') within group (order by j.nombre)
+from empleado e
+left join empleado j
+on j.codigo_empleado=e.codigo_jefe
+group by j.nombre
+
+----------ROLLUP-----------
+select producto,estado,pais_cliente,sum(cantidad*precio_unidad) total from v_ventas
+group by rollup( producto,estado,pais_cliente)
+
+
+Tambien se hablo de datawarehouse(esquema en estrella, desnormalizacion, snow flake, constalacion)
