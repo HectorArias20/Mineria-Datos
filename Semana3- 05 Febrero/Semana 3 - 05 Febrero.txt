@@ -1,0 +1,7 @@
+Un repaso con consulta en sqldeveloper
+
+paso:  crear una bases de datos utnsa y utndw
+
+herramienta : visual studio , integration services
+
+Python data transfer
