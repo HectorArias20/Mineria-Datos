@@ -1,0 +1,3 @@
+Hicimos los insert en la bases de datos "utndw"
+Hay 2 formas(Tabular , multidimensional
+Explicacion de los KPI´s
