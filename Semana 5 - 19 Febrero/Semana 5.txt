@@ -1,0 +1,3 @@
+Utilizamos Power BI, el profe hizo un KPI sobre ventas
+
+Tambien se vio el tema EDA(Analisis exploratorio de datos)
