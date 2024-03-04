@@ -1,0 +1,44 @@
+Viendo ejercicios en Rstudio 
+
+ejemplo:
+# Generar algunas graficas
+
+plot(datos$nacionales)
+
+
+ggplot(datos, aes(anio,nacionales)) +
+  #geom_hex() +
+  geom_jitter(width =.3, alpha = 0.5) +
+  labs(title="Diagrama de dispersión",
+       subtitle= "ScatterPlot",
+       caption="Fuente: CPS1985 (paquete AER)",
+       x="Años",
+       y="Cantidad de nacionales") +
+  scale_fill_continuous("Pasajeros nacionales") +
+  theme_classic()
+
+
+hist(datos$nacionales, main = "Histograma de las ventas",
+     xlab = "pasajeros", ylab = "Frecuencia",
+     col = "purple")
+
+
+boxplot(datos$nacionales,boxwex=0.8)
+unique(datos$aeropuerto)
+
+library(dplyr)
+nacionales_ae1<-datos %>% filter(aeropuerto=="Limón" )
+
+boxplot(nacionales ~ anio, 
+        col = rainbow(ncol(nacionales_ae1)),
+        data = nacionales_ae1,
+        boxwex=0.8,
+        main = "Nacionales por mes",
+        scale_y_continuous(labels=scales::comma)
+)
+stripchart(data=datos,nacionales ~ anio,vertical = TRUE, 
+           method = "jitter",pch=19,add = TRUE,
+           col = 1:12
+)
+
+unique(datos$aeropuerto)
