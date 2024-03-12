@@ -1,0 +1,96 @@
+Caracteristicas(tiempo real, machine learning, escabilidad) de apache spark, tambien el funcionamineto de esta, 1- Arquitectuta de cluter, 2- Resilient Distributed Datasets(RDD)
+
+Practica apache spark , consultas muy agiles a millones de datos
+
+library(hexbin)
+library(ggplot2)
+library(dplyr)
+library(ggplot2)
+library(visdat) 
+library(naniar)
+library(ggplot2)
+library(stringr)
+library(visdat) 
+
+datos<-read.csv("Files/ozone.csv",header = T,sep = ";")
+View(datos)
+
+datos$Month<-as.factor(datos$Month)
+datos$Day_of_month<-as.factor(datos$Day_of_month)
+datos$Day_of_week<-as.factor(datos$Day_of_week)
+
+glimpse(datos)
+
+cantidadnulos <- function(data) {
+  nulos_por_columna <- colSums(is.na(data))
+  return(nulos_por_columna)
+}
+
+
+cantidadnulos(datos)
+head(datos)
+sapply(datos, is.numeric)
+glimpse(datos)
+
+imputarNATotalconMediaNumericas <- function(data) {
+  columnas_numericas <- sapply(data, is.numeric)
+  medias <- colMeans(data[, columnas_numericas], na.rm = TRUE)
+  for (col in names(medias)) {
+    data[[col]][is.na(data[[col]])] <- medias[col]
+  }
+  
+  return(data)
+}
+
+datos_imputados<-imputarNATotalconMediaNumericas(datos)
+View(datos_imputados)
+cantidadnulos(datos_imputados)
+
+# para hacerlo para una sola columna
+imputarNAconMedia <- function(data, columna) {
+  media <- mean(data[[columna]], na.rm = TRUE)
+  data[[columna]][is.na(data[[columna]])] <- media
+  return(data)
+}
+
+datos_imputados<-imputarNAconMedia(datos_imputados,"Inversion_temperature")
+View(datos_imputados)
+
+#Estandarizacion de variables
+
+estandarizarVariablesNumericas <- function(data) {
+  columnas_numericas <- sapply(data, is.numeric)
+  data[, columnas_numericas] <- scale(data[, columnas_numericas])
+  return(data)
+}
+
+datos_scalados<- estandarizarVariablesNumericas(datos_imputados)
+View(datos_scalados)
+
+library(corrplot)
+library(scales)
+
+cor(datos_scalados)
+
+graficoCorrelaciones <- function(data) {
+  correlaciones <- cor(data)
+  correlaciones_porcentaje <- percent(correlaciones)
+  corrplot(correlaciones, method = "color", type = "upper", order = "hclust", addrect = 3)
+}
+graficoCorrelaciones(datos_scalados)
+
+
+library(randomForest)
+
+set.seed(123)  
+modelo <- randomForest(datos_scalados$ozone_reading ~ ., 
+                       data = datos_scalados, ntree = 500)
+
+str(importance_plot)
+# Visualizar la importancia relativa de las variables
+# la importancia relativa indica qué tan importante es cada variable 
+# para explicar la variabilidad en la variable de respuesta.
+
+importance_plot <- importance(modelo)
+varImpPlot(modelo, main = "Importancia Relativa de las Variables", 
+           col = "skyblue", pch = 20, cex = 1.2, las = 2)
